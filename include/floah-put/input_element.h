@@ -6,14 +6,6 @@
 
 #include <cstdint>
 
-////////////////////////////////////////////////////////////////
-// Module includes.
-////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////
-// Current target includes.
-////////////////////////////////////////////////////////////////
-
 namespace floah
 {
     class InputElement
@@ -39,29 +31,43 @@ namespace floah
         // Getters.
         ////////////////////////////////////////////////////////////////
 
-        [[nodiscard]] int32_t getInputLayer() const noexcept;
+        /**
+         * \brief Optional parent for hierarchical input layers.
+         * \return Parent or nullptr.
+         */
+        [[nodiscard]] virtual const InputElement* getInputParent() const noexcept;
 
-        ////////////////////////////////////////////////////////////////
-        // Setters.
-        ////////////////////////////////////////////////////////////////
-
-        void setInputLayer(int32_t layer) noexcept;
+        /**
+         * \brief Get the input layer. Higher values mean the element is on top of elements in a lower input layer.
+         * \return Input layer.
+         */
+        [[nodiscard]] virtual int32_t getInputLayer() const noexcept;
 
         ////////////////////////////////////////////////////////////////
         // Input.
         ////////////////////////////////////////////////////////////////
 
-        [[nodiscard]] virtual bool intersect(int32_t x, int32_t y) const = 0;
+        /**
+         * \brief Comparison function for sorting elements by layer.
+         * \param other Other element.
+         * \return Boolean.
+         */
+        [[nodiscard]] bool compare(const InputElement& other) const noexcept;
+
+        /**
+         * \brief Returns whether point is inside of element.
+         * \param x X.
+         * \param y Y.
+         * \return True if point is inside.
+         */
+        [[nodiscard]] virtual bool intersect(int32_t x, int32_t y) const noexcept = 0;
+
+        ////////////////////////////////////////////////////////////////
+        // Events.
+        ////////////////////////////////////////////////////////////////
 
         virtual void onMouseEnter() const;
 
         virtual void onMouseExit() const;
-
-    protected:
-        ////////////////////////////////////////////////////////////////
-        // Member variables.
-        ////////////////////////////////////////////////////////////////
-
-        int32_t inputLayer = 0;
     };
 }  // namespace floah

@@ -72,7 +72,7 @@ namespace floah
     {
         // Sort by layer descending.
         std::ranges::sort(inputElements, [](const InputElement* lhs, const InputElement* rhs) {
-            return lhs->getInputLayer() > rhs->getInputLayer();
+            return lhs->compare(*rhs);
         });
 
         mouseMoveEvents();
@@ -107,7 +107,7 @@ namespace floah
         for (auto* elem : inputElements)
         {
             // Elements on the same level or below the currently entered element should not take over the entered state.
-            if (stillInside && elem->getInputLayer() <= enteredElement->getInputLayer()) break;
+            if (stillInside && enteredElement->compare(*elem)) break;
 
             if (elem->intersect(cursor.x, cursor.y))
             {
