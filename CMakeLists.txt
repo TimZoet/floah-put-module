@@ -21,7 +21,7 @@ set(SOURCES
 
 set(DEPS_PUBLIC
     common::common
-    floah-layout
+    floah-common
     math::math
 )
 
