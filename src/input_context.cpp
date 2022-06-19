@@ -51,6 +51,10 @@ namespace floah
     // Elements.
     ////////////////////////////////////////////////////////////////
 
+    // TODO: InputElements do not (yet?) store a reference to their context.
+    // They can be added to any number of contexts and will receive events from all of them.
+    // Is this desirable or should it be prevented?
+
     void InputContext::addElement(InputElement& elem) { inputElements.emplace_back(&elem); }
 
     bool InputContext::removeElement(InputElement& elem)

@@ -1,5 +1,47 @@
 #include "floah-put/input_element.h"
 
+#include <utility>
+
+namespace
+{
+    /**
+     * \brief Traverse up the hierarchy to find the nearest common ancestor of two elements.
+     * It is possible that one of the elements is a descendant of the other, in which case we
+     * must go up only on one side. This is indicated with the balance.
+     * \param lhs Left element.
+     * \param rhs Right element.
+     * \return {balance, comparison} (comparison is only valid when balance == 0).
+     */
+    [[nodiscard]] std::pair<int32_t, bool> compareElements(const floah::InputElement& lhs, const floah::InputElement& rhs)
+    {
+        const auto* p0 = lhs.getInputParent();
+        const auto* p1 = rhs.getInputParent();
+
+        // Found common ancestor, compare direct descendants (which may or may not be the original input elements).
+        if (p0 == p1) return {0, lhs.getInputLayer() > rhs.getInputLayer()};
+
+        if (p0 && p1)
+        {
+            const auto [balance, comp] = compareElements(*p0, *p1);
+
+            // Compare lhs and parent(rhs).
+            if (balance == -1) return compareElements(lhs, *p1);
+
+            // Compare parent(lhs) and rhs.
+            if (balance == 1) return compareElements(*p0, rhs);
+
+            // Done comparing, propagate result down.
+            return {0, comp};
+        }
+
+        // Ran out of parents on the left side, previous comparison must compare lhs and parent(rhs).
+        if (p0 == nullptr) return {-1, false};
+
+        // Ran out of parents on the right side, previous comparison must compare parent(lhs) and rhs.
+        return {1, false};
+    }
+}
+
 namespace floah
 {
     ////////////////////////////////////////////////////////////////
@@ -24,27 +66,10 @@ namespace floah
 
     bool InputElement::compare(const InputElement& other) const noexcept
     {
-        const auto* p0 = getInputParent();
-        const auto* p1 = other.getInputParent();
-
-        // Both elements have a parent.
-        if (p0 && p1)
-        {
-            // Elements have a common parent, compare layers.
-            if (p0 == p1) return getInputLayer() > other.getInputLayer();
-
-            // Traverse up.
-            return p0->compare(*p1);
-        }
-
-        // Compare parent of this element with other element.
-        if (p0) return p0->compare(other);
-
-        // Compare this element with parent of other element.
-        if (p1) return compare(*p1);
-
-        // No more parents, compare layers.
-        return getInputLayer() > other.getInputLayer();
+        const auto [balance, comp] = compareElements(*this, other);
+        if (balance == -1) return true;
+        if (balance == 1) return false;
+        return comp;
     }
 
     ////////////////////////////////////////////////////////////////
