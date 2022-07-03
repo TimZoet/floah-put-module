@@ -12,7 +12,8 @@ namespace
      * \param rhs Right element.
      * \return {balance, comparison} (comparison is only valid when balance == 0).
      */
-    [[nodiscard]] std::pair<int32_t, bool> compareElements(const floah::InputElement& lhs, const floah::InputElement& rhs)
+    [[nodiscard]] std::pair<int32_t, bool> compareElements(const floah::InputElement& lhs,
+                                                           const floah::InputElement& rhs)
     {
         const auto* p0 = lhs.getInputParent();
         const auto* p1 = rhs.getInputParent();
@@ -40,7 +41,7 @@ namespace
         // Ran out of parents on the right side, previous comparison must compare parent(lhs) and rhs.
         return {1, false};
     }
-}
+}  // namespace
 
 namespace floah
 {
@@ -67,8 +68,11 @@ namespace floah
     bool InputElement::compare(const InputElement& other) const noexcept
     {
         const auto [balance, comp] = compareElements(*this, other);
-        if (balance == -1) return true;
-        if (balance == 1) return false;
+        // Other is an ancestor of this and must be placed on top.
+        if (balance == 1) return true;
+        // This is an ancestor of other.
+        if (balance == -1) return false;
+
         return comp;
     }
 
@@ -76,8 +80,10 @@ namespace floah
     // Events.
     ////////////////////////////////////////////////////////////////
 
-    void InputElement::onMouseEnter() const {}
+    void InputElement::onMouseEnter() {}
 
-    void InputElement::onMouseExit() const {}
+    void InputElement::onMouseExit() {}
+
+    void InputElement::onMouseClick(InputContext::MouseClick) {}
 
 }  // namespace floah

@@ -6,6 +6,12 @@
 
 #include <ranges>
 
+////////////////////////////////////////////////////////////////
+// Current target includes.
+////////////////////////////////////////////////////////////////
+
+#include "floah-put/input_element.h"
+
 namespace floah
 {
     ////////////////////////////////////////////////////////////////
@@ -42,10 +48,11 @@ namespace floah
                                       const MouseAction    action,
                                       const MouseModifiers mods) noexcept
     {
-        static_cast<void>(button);
-        static_cast<void>(action);
-        static_cast<void>(mods);
+        mouseClick = {button, action, mods};
     }
+
+    void InputContext::clearMouseButton() noexcept { mouseClick = {}; }
+
 
     ////////////////////////////////////////////////////////////////
     // Elements.
@@ -72,14 +79,16 @@ namespace floah
     // Frame.
     ////////////////////////////////////////////////////////////////
 
-    void InputContext::frame()
+    void InputContext::prePoll() { clearMouseButton(); }
+
+    void InputContext::postPoll()
     {
         // Sort by layer descending.
-        std::ranges::sort(inputElements, [](const InputElement* lhs, const InputElement* rhs) {
-            return lhs->compare(*rhs);
-        });
+        std::ranges::sort(inputElements,
+                          [](const InputElement* lhs, const InputElement* rhs) { return lhs->compare(*rhs); });
 
         mouseMoveEvents();
+        mouseClickEvents();
     }
 
     void InputContext::mouseMoveEvents()
@@ -125,6 +134,11 @@ namespace floah
                 break;
             }
         }
+    }
+
+    void InputContext::mouseClickEvents()
+    {
+        if (mouseClick && enteredElement) enteredElement->onMouseClick(*mouseClick);
     }
 
 }  // namespace floah

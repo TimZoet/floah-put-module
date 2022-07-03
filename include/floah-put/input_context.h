@@ -4,6 +4,7 @@
 // Standard includes.
 ////////////////////////////////////////////////////////////////
 
+#include <optional>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////
@@ -12,14 +13,10 @@
 
 #include "math/include_all.h"
 
-////////////////////////////////////////////////////////////////
-// Current target includes.
-////////////////////////////////////////////////////////////////
-
-#include "floah-put/input_element.h"
-
 namespace floah
 {
+    class InputElement;
+
     class InputContext
     {
     public:
@@ -47,6 +44,13 @@ namespace floah
             Super    = 8,
             CapsLock = 16,
             NumLock  = 32
+        };
+
+        struct MouseClick
+        {
+            MouseButton    button;
+            MouseAction    action;
+            MouseModifiers modifiers;
         };
 
         ////////////////////////////////////////////////////////////////
@@ -89,6 +93,8 @@ namespace floah
 
         void setMouseButton(MouseButton button, MouseAction action, MouseModifiers mods) noexcept;
 
+        void clearMouseButton() noexcept;
+
         ////////////////////////////////////////////////////////////////
         // Elements.
         ////////////////////////////////////////////////////////////////
@@ -101,10 +107,14 @@ namespace floah
         // Frame.
         ////////////////////////////////////////////////////////////////
 
-        void frame();
+        void prePoll();
+
+        void postPoll();
 
     private:
         void mouseMoveEvents();
+
+        void mouseClickEvents();
 
         ////////////////////////////////////////////////////////////////
         // Member variables.
@@ -124,5 +134,7 @@ namespace floah
          * \brief Input element that currently contains the cursor.
          */
         InputElement* enteredElement = nullptr;
+
+        std::optional<MouseClick> mouseClick;
     };
 }  // namespace floah

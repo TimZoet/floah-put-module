@@ -6,6 +6,12 @@
 
 #include <cstdint>
 
+////////////////////////////////////////////////////////////////
+// Current target includes.
+////////////////////////////////////////////////////////////////
+
+#include "floah-put/input_context.h"
+
 namespace floah
 {
     class InputElement
@@ -66,8 +72,10 @@ namespace floah
         // Events.
         ////////////////////////////////////////////////////////////////
 
-        virtual void onMouseEnter() const;
+        virtual void onMouseEnter();
 
-        virtual void onMouseExit() const;
+        virtual void onMouseExit();
+
+        virtual void onMouseClick(InputContext::MouseClick click);
     };
 }  // namespace floah
