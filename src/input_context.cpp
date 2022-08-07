@@ -119,6 +119,8 @@ namespace floah
 
         for (auto* elem : inputElements)
         {
+            if (elem == enteredElement) continue;
+
             // Elements on the same level or below the currently entered element should not take over the entered state.
             if (stillInside && enteredElement->compare(*elem)) break;
 
