@@ -76,6 +76,6 @@ namespace floah
 
         virtual void onMouseExit();
 
-        virtual void onMouseClick(InputContext::MouseClick click);
+        [[nodiscard]] virtual InputContext::MouseClickResult onMouseClick(InputContext::MouseClick click);
     };
 }  // namespace floah

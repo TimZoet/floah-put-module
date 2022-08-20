@@ -53,6 +53,11 @@ namespace floah
             MouseModifiers modifiers;
         };
 
+        struct MouseClickResult
+        {
+            bool claim = false;
+        };
+
         ////////////////////////////////////////////////////////////////
         // Constructors.
         ////////////////////////////////////////////////////////////////
@@ -134,6 +139,11 @@ namespace floah
          * \brief Input element that currently contains the cursor.
          */
         InputElement* enteredElement = nullptr;
+
+        /**
+         * \brief Input element that has claimed input.
+         */
+        InputElement* claimedElement = nullptr;
 
         std::optional<MouseClick> mouseClick;
     };

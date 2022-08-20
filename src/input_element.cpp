@@ -84,6 +84,9 @@ namespace floah
 
     void InputElement::onMouseExit() {}
 
-    void InputElement::onMouseClick(InputContext::MouseClick) {}
+    InputContext::MouseClickResult InputElement::onMouseClick(InputContext::MouseClick)
+    {
+        return InputContext::MouseClickResult{};
+    }
 
 }  // namespace floah

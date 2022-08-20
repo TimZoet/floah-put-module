@@ -117,6 +117,20 @@ namespace floah
             }
         }
 
+        // If an element has claimed input, don't try to enter other elements.
+        // But perhaps we need to re-enter the claimed element.
+        if (claimedElement)
+        {
+            if (!enteredElement && claimedElement->intersect(cursor.x, cursor.y))
+            {
+                enteredElement = claimedElement;
+                enteredElement->onMouseEnter();
+            }
+
+            return;
+        }
+
+        // Try to enter new element.
         for (auto* elem : inputElements)
         {
             if (elem == enteredElement) continue;
@@ -140,7 +154,17 @@ namespace floah
 
     void InputContext::mouseClickEvents()
     {
-        if (mouseClick && enteredElement) enteredElement->onMouseClick(*mouseClick);
+        if (mouseClick)
+        {
+            if (claimedElement)
+            {
+                if (!claimedElement->onMouseClick(*mouseClick).claim) claimedElement = nullptr;
+            }
+            else if (enteredElement)
+            {
+                if (enteredElement->onMouseClick(*mouseClick).claim) claimedElement = enteredElement;
+            }
+        }
     }
 
 }  // namespace floah
