@@ -58,6 +58,23 @@ namespace floah
             bool claim = false;
         };
 
+        struct MouseMove
+        {
+            /**
+             * \brief Previous cursor position.
+             */
+            math::int2 previous;
+
+            /**
+             * \brief Current cursor position.
+             */
+            math::int2 current;
+        };
+
+        struct MouseMoveResult
+        {
+        };
+
         ////////////////////////////////////////////////////////////////
         // Constructors.
         ////////////////////////////////////////////////////////////////
@@ -117,6 +134,8 @@ namespace floah
         void postPoll();
 
     private:
+        void mouseEnterEvents();
+
         void mouseMoveEvents();
 
         void mouseClickEvents();
@@ -130,6 +149,8 @@ namespace floah
         bool focus = false;
 
         bool enter = false;
+
+        math::int2 previousCursor;
 
         math::int2 cursor;
 

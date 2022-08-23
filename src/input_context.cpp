@@ -87,11 +87,14 @@ namespace floah
         std::ranges::sort(inputElements,
                           [](const InputElement* lhs, const InputElement* rhs) { return lhs->compare(*rhs); });
 
+        mouseEnterEvents();
         mouseMoveEvents();
         mouseClickEvents();
+
+        previousCursor = cursor;
     }
 
-    void InputContext::mouseMoveEvents()
+    void InputContext::mouseEnterEvents()
     {
         // If mouse is not inside window, exit currently entered element.
         if (!enter)
@@ -150,6 +153,18 @@ namespace floah
                 break;
             }
         }
+    }
+
+    void InputContext::mouseMoveEvents()
+    {
+        if (previousCursor == cursor) return;
+
+        const auto move = MouseMove{.previous = previousCursor, .current = cursor};
+
+        if (claimedElement)
+            static_cast<void>(claimedElement->onMouseMove(move));
+        else if (enteredElement)
+            static_cast<void>(enteredElement->onMouseMove(move));
     }
 
     void InputContext::mouseClickEvents()

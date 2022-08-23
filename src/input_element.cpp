@@ -89,4 +89,9 @@ namespace floah
         return InputContext::MouseClickResult{};
     }
 
+    InputContext::MouseMoveResult InputElement::onMouseMove(InputContext::MouseMove)
+    {
+        return InputContext::MouseMoveResult{};
+    }
+
 }  // namespace floah
