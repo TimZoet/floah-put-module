@@ -84,14 +84,19 @@ namespace floah
 
     void InputElement::onMouseExit() {}
 
-    InputContext::MouseClickResult InputElement::onMouseClick(InputContext::MouseClick)
+    InputContext::MouseClickResult InputElement::onMouseClick(const InputContext::MouseClick)
     {
         return InputContext::MouseClickResult{};
     }
 
-    InputContext::MouseMoveResult InputElement::onMouseMove(InputContext::MouseMove)
+    InputContext::MouseMoveResult InputElement::onMouseMove(const InputContext::MouseMove)
     {
         return InputContext::MouseMoveResult{};
+    }
+
+    InputContext::MouseScrollResult InputElement::onMouseScroll(const InputContext::MouseScroll)
+    {
+        return InputContext::MouseScrollResult{};
     }
 
 }  // namespace floah

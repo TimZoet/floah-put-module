@@ -75,6 +75,15 @@ namespace floah
         {
         };
 
+        struct MouseScroll
+        {
+            math::int2 scroll;
+        };
+
+        struct MouseScrollResult
+        {
+        };
+
         ////////////////////////////////////////////////////////////////
         // Constructors.
         ////////////////////////////////////////////////////////////////
@@ -117,6 +126,8 @@ namespace floah
 
         void clearMouseButton() noexcept;
 
+        void setScroll(math::int2 s) noexcept;
+
         ////////////////////////////////////////////////////////////////
         // Elements.
         ////////////////////////////////////////////////////////////////
@@ -140,6 +151,8 @@ namespace floah
 
         void mouseClickEvents();
 
+        void mouseScrollEvents();
+
         ////////////////////////////////////////////////////////////////
         // Member variables.
         ////////////////////////////////////////////////////////////////
@@ -154,6 +167,8 @@ namespace floah
 
         math::int2 cursor;
 
+
+
         std::vector<InputElement*> inputElements;
 
         /**
@@ -167,5 +182,7 @@ namespace floah
         InputElement* claimedElement = nullptr;
 
         std::optional<MouseClick> mouseClick;
+
+        std::optional<MouseScroll> mouseScroll;
     };
 }  // namespace floah

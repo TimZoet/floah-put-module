@@ -51,8 +51,13 @@ namespace floah
         mouseClick = {button, action, mods};
     }
 
-    void InputContext::clearMouseButton() noexcept { mouseClick = {}; }
+    void InputContext::clearMouseButton() noexcept
+    {
+        mouseClick  = {};
+        mouseScroll = {};
+    }
 
+    void InputContext::setScroll(const math::int2 s) noexcept { mouseScroll = {s}; }
 
     ////////////////////////////////////////////////////////////////
     // Elements.
@@ -90,6 +95,7 @@ namespace floah
         mouseEnterEvents();
         mouseMoveEvents();
         mouseClickEvents();
+        mouseScrollEvents();
 
         previousCursor = cursor;
     }
@@ -179,6 +185,17 @@ namespace floah
             {
                 if (enteredElement->onMouseClick(*mouseClick).claim) claimedElement = enteredElement;
             }
+        }
+    }
+
+    void InputContext::mouseScrollEvents()
+    {
+        if (mouseScroll)
+        {
+            if (claimedElement)
+                static_cast<void>(claimedElement->onMouseScroll(*mouseScroll));
+            else if (enteredElement)
+                static_cast<void>(enteredElement->onMouseScroll(*mouseScroll));
         }
     }
 

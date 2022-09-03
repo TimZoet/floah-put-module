@@ -79,5 +79,7 @@ namespace floah
         [[nodiscard]] virtual InputContext::MouseClickResult onMouseClick(InputContext::MouseClick click);
 
         [[nodiscard]] virtual InputContext::MouseMoveResult onMouseMove(InputContext::MouseMove move);
+
+        [[nodiscard]] virtual InputContext::MouseScrollResult onMouseScroll(InputContext::MouseScroll scroll);
     };
 }  // namespace floah
