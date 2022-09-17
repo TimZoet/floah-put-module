@@ -117,7 +117,7 @@ namespace floah
         bool stillInside = false;
         if (enteredElement)
         {
-            if (enteredElement->intersect(cursor.x, cursor.y))
+            if (enteredElement->intersect(cursor - enteredElement->getInputOffset()))
                 stillInside = true;
             else
             {
@@ -130,7 +130,7 @@ namespace floah
         // But perhaps we need to re-enter the claimed element.
         if (claimedElement)
         {
-            if (!enteredElement && claimedElement->intersect(cursor.x, cursor.y))
+            if (!enteredElement && claimedElement->intersect(cursor - claimedElement->getInputOffset()))
             {
                 enteredElement = claimedElement;
                 enteredElement->onMouseEnter();
@@ -147,7 +147,7 @@ namespace floah
             // Elements on the same level or below the currently entered element should not take over the entered state.
             if (stillInside && enteredElement->compare(*elem)) break;
 
-            if (elem->intersect(cursor.x, cursor.y))
+            if (elem->intersect(cursor - elem->getInputOffset()))
             {
                 // Exit previous element.
                 if (enteredElement) enteredElement->onMouseExit();
@@ -165,12 +165,15 @@ namespace floah
     {
         if (previousCursor == cursor) return;
 
-        const auto move = MouseMove{.previous = previousCursor, .current = cursor};
+        auto* elem = claimedElement;
+        if (!elem && enteredElement) elem = enteredElement;
 
-        if (claimedElement)
-            static_cast<void>(claimedElement->onMouseMove(move));
-        else if (enteredElement)
-            static_cast<void>(enteredElement->onMouseMove(move));
+        if (elem)
+        {
+            const auto offset = elem->getInputOffset();
+            const auto move   = MouseMove{.previous = previousCursor - offset, .current = cursor - offset};
+            static_cast<void>(elem->onMouseMove(move));
+        }
     }
 
     void InputContext::mouseClickEvents()

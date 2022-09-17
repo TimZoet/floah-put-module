@@ -23,15 +23,15 @@ namespace floah
 
         InputElement();
 
-        InputElement(const InputElement&) = delete;
+        InputElement(const InputElement&) = default;
 
-        InputElement(InputElement&&) noexcept = delete;
+        InputElement(InputElement&&) noexcept = default;
 
         virtual ~InputElement() noexcept;
 
-        InputElement& operator=(const InputElement&) = delete;
+        InputElement& operator=(const InputElement&) = default;
 
-        InputElement& operator=(InputElement&&) noexcept = delete;
+        InputElement& operator=(InputElement&&) noexcept = default;
 
         ////////////////////////////////////////////////////////////////
         // Getters.
@@ -49,6 +49,13 @@ namespace floah
          */
         [[nodiscard]] virtual int32_t getInputLayer() const noexcept;
 
+        /**
+         * \brief Offset of this input element in global space.
+         * All positions passed to input methods (e.g. the cursor) are translated by the inverse of this value.
+         * \return Offset.
+         */
+        [[nodiscard]] virtual math::int2 getInputOffset() const noexcept;
+
         ////////////////////////////////////////////////////////////////
         // Input.
         ////////////////////////////////////////////////////////////////
@@ -62,11 +69,10 @@ namespace floah
 
         /**
          * \brief Returns whether point is inside of element.
-         * \param x X.
-         * \param y Y.
+         * \param point Point.
          * \return True if point is inside.
          */
-        [[nodiscard]] virtual bool intersect(int32_t x, int32_t y) const noexcept = 0;
+        [[nodiscard]] virtual bool intersect(math::int2 point) const noexcept = 0;
 
         ////////////////////////////////////////////////////////////////
         // Events.

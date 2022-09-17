@@ -61,6 +61,8 @@ namespace floah
 
     int32_t InputElement::getInputLayer() const noexcept { return 0; }
 
+    math::int2 InputElement::getInputOffset() const noexcept { return {}; }
+
     ////////////////////////////////////////////////////////////////
     // Input.
     ////////////////////////////////////////////////////////////////
