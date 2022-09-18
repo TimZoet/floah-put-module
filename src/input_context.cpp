@@ -88,6 +88,7 @@ namespace floah
 
     void InputContext::postPoll()
     {
+        // TODO: Only sort when list was updated.
         // Sort by layer descending.
         std::ranges::sort(inputElements,
                           [](const InputElement* lhs, const InputElement* rhs) { return lhs->compare(*rhs); });
