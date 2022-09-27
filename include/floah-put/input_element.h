@@ -78,14 +78,40 @@ namespace floah
         // Events.
         ////////////////////////////////////////////////////////////////
 
-        virtual void onMouseEnter();
+        /**
+         * \brief Mouse enter event. Called when the mouse enters this input element.
+         * \param enter Event properties.
+         * \return Event results.
+         */
+        [[nodiscard]] virtual InputContext::MouseEnterResult onMouseEnter(const InputContext::MouseEnterEvent& enter);
 
-        virtual void onMouseExit();
+        /**
+         * \brief Mouse exit event. Called when the mouse exits this input element.
+         * \param exit Event properties.
+         * \return Event results.
+         */
+        [[nodiscard]] virtual InputContext::MouseExitResult onMouseExit(const InputContext::MouseExitEvent& exit);
 
-        [[nodiscard]] virtual InputContext::MouseClickResult onMouseClick(InputContext::MouseClick click);
+        /**
+         * \brief Mouse click event. Called when the mouse clicks this input element.
+         * \param click Event properties.
+         * \return Event results.
+         */
+        [[nodiscard]] virtual InputContext::MouseClickResult onMouseClick(const InputContext::MouseClickEvent& click);
 
-        [[nodiscard]] virtual InputContext::MouseMoveResult onMouseMove(InputContext::MouseMove move);
+        /**
+         * \brief Mouse move event. Called when the mouse moves over this input element.
+         * \param move Event properties.
+         * \return Event results.
+         */
+        [[nodiscard]] virtual InputContext::MouseMoveResult onMouseMove(const InputContext::MouseMoveEvent& move);
 
-        [[nodiscard]] virtual InputContext::MouseScrollResult onMouseScroll(InputContext::MouseScroll scroll);
+        /**
+         * \brief Mouse scroll event. Called when the mouse scrolls over this input element.
+         * \param scroll Event properties.
+         * \return Event results.
+         */
+        [[nodiscard]] virtual InputContext::MouseScrollResult
+          onMouseScroll(const InputContext::MouseScrollEvent& scroll);
     };
 }  // namespace floah

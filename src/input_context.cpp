@@ -108,7 +108,8 @@ namespace floah
         {
             if (enteredElement)
             {
-                enteredElement->onMouseExit();
+                constexpr MouseExitEvent e;
+                static_cast<void>(enteredElement->onMouseExit(e));
                 enteredElement = nullptr;
             }
             return;
@@ -122,7 +123,8 @@ namespace floah
                 stillInside = true;
             else
             {
-                enteredElement->onMouseExit();
+                constexpr MouseExitEvent e;
+                static_cast<void>(enteredElement->onMouseExit(e));
                 enteredElement = nullptr;
             }
         }
@@ -134,7 +136,8 @@ namespace floah
             if (!enteredElement && claimedElement->intersect(cursor - claimedElement->getInputOffset()))
             {
                 enteredElement = claimedElement;
-                enteredElement->onMouseEnter();
+                constexpr MouseEnterEvent e;
+                static_cast<void>(enteredElement->onMouseEnter(e));
             }
 
             return;
@@ -151,11 +154,16 @@ namespace floah
             if (elem->intersect(cursor - elem->getInputOffset()))
             {
                 // Exit previous element.
-                if (enteredElement) enteredElement->onMouseExit();
+                if (enteredElement)
+                {
+                    constexpr MouseExitEvent e;
+                    static_cast<void>(enteredElement->onMouseExit(e));
+                }
 
                 // Enter new element.
                 enteredElement = elem;
-                enteredElement->onMouseEnter();
+                constexpr MouseEnterEvent e;
+                static_cast<void>(enteredElement->onMouseEnter(e));
 
                 break;
             }
@@ -172,7 +180,7 @@ namespace floah
         if (elem)
         {
             const auto offset = elem->getInputOffset();
-            const auto move   = MouseMove{.previous = previousCursor - offset, .current = cursor - offset};
+            const auto move   = MouseMoveEvent{.previous = previousCursor - offset, .current = cursor - offset};
             static_cast<void>(elem->onMouseMove(move));
         }
     }

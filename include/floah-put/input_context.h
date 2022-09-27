@@ -46,7 +46,32 @@ namespace floah
             NumLock  = 32
         };
 
-        struct MouseClick
+        /**
+         * \brief Properties describing the mouse entering an input element.
+         */
+        struct MouseEnterEvent
+        {
+        };
+
+        struct MouseEnterResult
+        {
+        };
+
+        /**
+         * \brief Properties describing the mouse exiting an input element.
+         */
+        struct MouseExitEvent
+        {
+        };
+
+        struct MouseExitResult
+        {
+        };
+
+        /**
+         * \brief Properties describing a mouse click on an input element.
+         */
+        struct MouseClickEvent
         {
             MouseButton    button;
             MouseAction    action;
@@ -55,10 +80,16 @@ namespace floah
 
         struct MouseClickResult
         {
+            /**
+             * \brief If true, the current input element will receive all further input until a result with claim set to false is returned.
+             */
             bool claim = false;
         };
 
-        struct MouseMove
+        /**
+         * \brief Properties describing the mouse moving over an input element.
+         */
+        struct MouseMoveEvent
         {
             /**
              * \brief Previous cursor position.
@@ -75,8 +106,14 @@ namespace floah
         {
         };
 
-        struct MouseScroll
+        /**
+         * \brief Properties describing the mouse scrolling over an input element.
+         */
+        struct MouseScrollEvent
         {
+            /**
+             * \brief Horizontal and vertical scroll distance.
+             */
             math::int2 scroll;
         };
 
@@ -132,16 +169,31 @@ namespace floah
         // Elements.
         ////////////////////////////////////////////////////////////////
 
+        /**
+         * \brief Add an input element to this context.
+         * \param elem Element to add.
+         */
         void addElement(InputElement& elem);
 
+        /**
+         * \brief Remove an input element from this context.
+         * \param elem Element to remove.
+         * \return True if element was removed, false if it was not in the context.
+         */
         bool removeElement(InputElement& elem);
 
         ////////////////////////////////////////////////////////////////
         // Frame.
         ////////////////////////////////////////////////////////////////
 
+        /**
+         * \brief Clears data from previous frame. Should be called before polling for events using your input/windowing library.
+         */
         void prePoll();
 
+        /**
+         * \brief Processes all input events. Should be called after polling for events (and passing on the events to this context) using your input/windowing library.
+         */
         void postPoll();
 
     private:
@@ -167,8 +219,6 @@ namespace floah
 
         math::int2 cursor;
 
-
-
         std::vector<InputElement*> inputElements;
 
         /**
@@ -181,8 +231,8 @@ namespace floah
          */
         InputElement* claimedElement = nullptr;
 
-        std::optional<MouseClick> mouseClick;
+        std::optional<MouseClickEvent> mouseClick;
 
-        std::optional<MouseScroll> mouseScroll;
+        std::optional<MouseScrollEvent> mouseScroll;
     };
 }  // namespace floah

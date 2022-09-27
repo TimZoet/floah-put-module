@@ -66,21 +66,27 @@ namespace floah
     // Events.
     ////////////////////////////////////////////////////////////////
 
-    void InputElement::onMouseEnter() {}
+    InputContext::MouseEnterResult InputElement::onMouseEnter(const InputContext::MouseEnterEvent&)
+    {
+        return InputContext::MouseEnterResult{};
+    }
 
-    void InputElement::onMouseExit() {}
+    InputContext::MouseExitResult InputElement::onMouseExit(const InputContext::MouseExitEvent&)
+    {
+        return InputContext::MouseExitResult{};
+    }
 
-    InputContext::MouseClickResult InputElement::onMouseClick(const InputContext::MouseClick)
+    InputContext::MouseClickResult InputElement::onMouseClick(const InputContext::MouseClickEvent&)
     {
         return InputContext::MouseClickResult{};
     }
 
-    InputContext::MouseMoveResult InputElement::onMouseMove(const InputContext::MouseMove)
+    InputContext::MouseMoveResult InputElement::onMouseMove(const InputContext::MouseMoveEvent&)
     {
         return InputContext::MouseMoveResult{};
     }
 
-    InputContext::MouseScrollResult InputElement::onMouseScroll(const InputContext::MouseScroll)
+    InputContext::MouseScrollResult InputElement::onMouseScroll(const InputContext::MouseScrollEvent&)
     {
         return InputContext::MouseScrollResult{};
     }
